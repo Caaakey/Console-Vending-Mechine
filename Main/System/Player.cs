@@ -22,7 +22,8 @@ public class Player
 
     public void BuyDrink(string name, int cost)
     {
-        if (!inventory.ContainsKey(name)) return;
+        if (!inventory.ContainsKey(name))
+            inventory.Add(name, 0);
 
         money -= cost;
         inventory[name]++;

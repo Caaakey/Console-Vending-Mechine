@@ -9,18 +9,15 @@ public class MachineCore
     public static void PrintLine()
         => Console.WriteLine("=======================================");
 
-    public enum DrinkType : int
-    {
-        Cola = 1,
-        Sida
-    }
-
     public void Run()
     {
         Dictionary<string, int> buyList = new Dictionary<string, int>
         {
             { "Cola", 500 },
             { "Sida", 750 },
+            { "Coke", 650 },
+            { "Moka", 500 },
+            { "Lemon water", 1200 }
         };
 
         while (true)
@@ -44,26 +41,19 @@ public class MachineCore
             string input = Console.ReadLine();
             if (input.Equals("Exit", StringComparison.CurrentCultureIgnoreCase))
             {
-
                 break;
             }
 
             if (!int.TryParse(input, out int select)) continue;
-            DrinkType type = (DrinkType)select;
 
-            switch (type)
+            int key = 1;
+            foreach (var v in buyList)
             {
-                case DrinkType.Cola:
-                    if (Player.Get.IsCheck(buyList["Cola"]))
-                        Player.Get.BuyDrink("Cola", buyList["Cola"]);
-                    break;
-
-                case DrinkType.Sida:
-                    if (Player.Get.IsCheck(buyList["Sida"]))
-                        Player.Get.BuyDrink("Sida", buyList["Sida"]);
-                    break;
+                if (key++ != select) continue;
+                if (Player.Get.IsCheck(v.Value))
+                    Player.Get.BuyDrink(v.Key, v.Value);
             }
-
+            
             //  자판기를 구현하시면 됩니다
             //  인벤토리, 지갑 등 플레이어 정보 클래스 새로 만들어서 싱글턴화
             //  음료수 (상속을 이용해서 구현해보기)
